@@ -78,6 +78,7 @@ CREATE TABLE `chemicals` (
 
 LOCK TABLES `chemicals` WRITE;
 /*!40000 ALTER TABLE `chemicals` DISABLE KEYS */;
+INSERT INTO `chemicals` VALUES ('1','','',0,0,0,0,'',0,0,'',0);
 /*!40000 ALTER TABLE `chemicals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,6 +93,7 @@ CREATE TABLE `groupdetails` (
   `gID` int(11) NOT NULL,
   `memID` varchar(20) NOT NULL,
   PRIMARY KEY (`gID`,`memID`),
+  UNIQUE KEY `memID` (`memID`),
   KEY `gID` (`gID`),
   KEY `gID_2` (`gID`),
   CONSTRAINT `groupdetails_ibfk_1` FOREIGN KEY (`gID`) REFERENCES `researchgroup` (`gID`)
@@ -150,8 +152,9 @@ CREATE TABLE `researchgroup` (
   `gID` int(11) NOT NULL,
   `hID` varchar(32) NOT NULL,
   `tlID` varchar(32) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`gID`)
+  `budget` int(15) DEFAULT NULL,
+  PRIMARY KEY (`gID`),
+  UNIQUE KEY `hID` (`hID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -176,7 +179,7 @@ CREATE TABLE `returnrequest` (
   `amount` float NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
-  `state` int(11) NOT NULL,
+  `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`reqID`),
   KEY `reqID` (`reqID`),
   CONSTRAINT `returnrequest_ibfk_1` FOREIGN KEY (`reqID`) REFERENCES `borrowrequest` (`reqID`)
@@ -202,7 +205,10 @@ DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock` (
   `chemID` varchar(15) NOT NULL,
   `amount` float NOT NULL,
-  PRIMARY KEY (`chemID`)
+  `gID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`chemID`),
+  KEY `gID` (`gID`),
+  CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`gID`) REFERENCES `researchgroup` (`gID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -212,6 +218,7 @@ CREATE TABLE `stock` (
 
 LOCK TABLES `stock` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
+INSERT INTO `stock` VALUES ('1',100,NULL);
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +244,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('aakash','*11BD7ECA686310F27791E4176BBFCF0FC55468FF','S','ads'),('abc','*0D3CED9BEC10A777AEC23CCC353A8C08A633045E','S','abc'),('admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','A','Batman');
+INSERT INTO `users` VALUES ('aakash','*11BD7ECA686310F27791E4176BBFCF0FC55468FF','S','ads'),('abc','*0D3CED9BEC10A777AEC23CCC353A8C08A633045E','S','abc'),('adi','*62F4A939227ABDD2176E3B797686948FFACB0506','R','Aditya'),('admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','A','Batman'),('han','*CFAC39769D64FE781449139F5AF667662ACA2A36','T','Handa'),('xyz','*39C549BDECFBA8AFC3CE6B948C9359A0ECE08DE2','S','Jon');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -250,4 +257,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-02 17:47:57
+-- Dump completed on 2016-04-07 23:44:30

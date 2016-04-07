@@ -70,15 +70,15 @@
 			<ul>
 		        <ul>
 		        <li><a class="active" href="#">Dashboard</a></li>
-		        <li><a href="makerequest.php">Make a Request</a></li>
+		        <li><a href="makerequest.php">Borrow</a></li>
+		        <li><a href = "return.php">Return</a></li>
 		        <li><a href="viewinv.php">View inventory</a></li>
 		        <li><a href="reset.php">Reset Password</a></li>
 		    </ul>
 		    </ul>
 	    </div>
 	    <p align="right">Welcome <?php echo $user;?><br><a href="logout.php">Logout</a><br>
-	</header>
-	
+	</header>	
 <div class = "fieldset-auto-width">
 	<form action = 'dashboard.php' method="post">
 		<fieldset>

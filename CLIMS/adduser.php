@@ -111,8 +111,7 @@
 			Re-enter Password:<input type='password' name='pwd2'><br>
 			Name:<input type='text' name='name'><br>
 			Account Type:<Input type='radio' name='type' value='A'>Admin</Input>
-				<input type='radio' name='type' value='R'>Research Head
-				<input type='radio' name='type' value='S'>Student<br><br>
+				<input type='radio' name='type' value='R'>Research Head<br><br>
 			<button type='submit' name='createuser'>Create User</button>
 		</fieldset>
 		<br><br><br>

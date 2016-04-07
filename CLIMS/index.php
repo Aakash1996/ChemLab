@@ -18,7 +18,7 @@
 			header('Location: admindash.php');
 		else if($_SESSION['user_type'] == 'R')
 			header('Location: rhdash.php');
-		else if($_SESSION['user_type'] == 'R')
+		else if($_SESSION['user_type'] == 'T')
 			header('Location: tldash.php');
 		else if($_SESSION['user_type'] == 'S')
 			header('Location: stdash.php');
