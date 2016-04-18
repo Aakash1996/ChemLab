@@ -8,78 +8,56 @@
 		die();
 	}
 	//$sql = 'select `reqID` from borrowrequest where uid=\''.$_SESSION['user'].'\' MINUS select `reqID` from returnrequest where uid=\''.$_SESSION['user'].'\'';
-	$sql = "select `ID` from chemicals, stock where chemicals.ID = stock.chemID and stock.gID = ".$_SESSION['group']." order by ID asc";
-	$result = mysqli_query($conn, $sql);
 	$type = -1;
+	$error = 0;
+	$stocklt = 0;
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$CAS = $_POST['CAS'];
 		$amt = $_POST['amount'];
-		$sql = "select B.amount, R.amount from borrowrequest B, returnrequest R where B.reqID = R.reqID and YEAR(B.date) = YEAR(NOW()) AND MONTH(B.date)=MONTH(NOW()) and B.uid = '".$_SESSION['user']."' and B.cid = '".$CAS."'";
-		$resultset = mysqli_query($conn, $sql);
-		$tillnow = 0;
-		while($row = mysqli_fetch_row($resultset))
-			$tillnow += $row[0]-$row[1];
-		$sql = "select limit from chemicals where id='".$CAS."'";
-		$resultset = mysqli_query($conn, $sql);
-		$row = mysqli_fetch_row($resultset);
-		$type = 1;
-		if($tillnow + $amt > $row[0])
-			$type = 2;
-		$sql = "insert into borrowrequest(`uID`, `cID`, `amount`, `date`, `time`, `state`) values ('".$_SESSION['user']."', '".$CAS."', ".$amt.", CURDATE(), CURTIME(), ".$type.")";
-		mysqli_query($conn, $sql);
+	if(!$amt || $amt == 0){
+ 			$type = 3;}
+	else{		
+		$sql = "select amount from stock where chemID = '".$CAS."' and gID = '".$_SESSION['group']."'";
+		//echo $sql;
+		$row = mysqli_fetch_row(mysqli_query($conn, $sql));
+		$stocklt = $row[0];
+		//echo $stocklt;
+		if($amt>$stocklt){
+			$error = 1;
+		}
+		else{
+			$sql = "select amount from borrowrequest where YEAR(date) = YEAR(NOW()) AND MONTH(date)=MONTH(NOW()) and uid = '".$_SESSION['user']."' and cid = '".$CAS."'";
+			//echo $sql;
+			$resultset = mysqli_query($conn, $sql);
+			$tillnow = 0;
+			while($row = mysqli_fetch_row($resultset))
+				$tillnow += $row[0];
+			$sql = "select amount from returnrequest where reqID in (select reqID from borrowrequest where YEAR(date) = YEAR(NOW()) AND MONTH(date)=MONTH(NOW()) and uid = '".$_SESSION['user']."' and cid = '".$CAS."')";
+			$resultset = mysqli_query($conn, $sql);
+			//echo $sql;
+			while($row = mysqli_fetch_row($resultset))
+				$tillnow -= $row[0];
+			//echo $tillnow;
+			$sql = "select `limit` from chemicals where id='".$CAS."'";
+			$resultset = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_row($resultset);
+			$type = 1;
+			if($tillnow + $amt > $row[0])
+				$type = 2;
+			$sql = "insert into borrowrequest(`uID`, `cID`, `amount`, `date`, `time`, `state`) values ('".$_SESSION['user']."', '".$CAS."', ".$amt.", CURDATE(), CURTIME(), ".$type.")";
+			mysqli_query($conn, $sql);
+			$sql = "update stock set amount = amount-".$amt." where chemID=".$CAS." and gID=".$_SESSION['group']."";
+			mysqli_query($conn, $sql);
+			//echo $sql;
+		}
 	}
+}
+	$sql = "select `ID` from chemicals, stock where chemicals.ID = stock.chemID and stock.gID = ".$_SESSION['group']." and stock.amount>0 order by ID asc";
+	$result = mysqli_query($conn, $sql);
 ?>
 <HTML>
 <HEAD>
-	<STYLE type="text/css">
-		.nav ul {
-			list-style: none;
-			background-color: #444;
-			text-align: center;
-			padding: 0;
-			margin: 0;
-		}
-
-		.nav li {
-			font-family: 'Oswald', sans-serif;
-			font-size: 1.2em;
-			line-height: 40px;
-			height: 40px;
-			border-bottom: 1px solid #888;
-		}
- 
-		.nav a {
-			text-decoration: none;
-			color: #fff;
-			display: block;
-			transition: .3s background-color;
-		}
- 
-		.nav a:hover {
-			background-color: #005f5f;
-		}
- 
-		.nav a.active {
-			background-color: #fff;
-			color: #444;
-			cursor: default;
-		}
- 
-		@media screen and (min-width: 600px) {
-			.nav li {
-				width: 120px;
-				border-bottom: none;
-				height: 50px;
-				line-height: 50px;
-				font-size: 1.4em;
-			}
-
-			.nav li {
-				display: inline-block;
-				margin-right: -4px;
-			}
-		}
-	</STYLE>
+	<link rel="stylesheet" type="text/css" href="CSS/navbar.css">
 	<TITLE>
 		Borrow
 	</TITLE>
@@ -104,7 +82,8 @@
 		<fieldset>
 		<legend>Borrow Chemical</legend>
 		<?php
-			if(!$result || mysqli_num_rows($result == 0)){
+			//echo var_dump($result);
+			if(mysqli_num_rows($result) == 0){
 				echo "No chemicals to borrow";
 			}
 			else{
@@ -131,6 +110,10 @@
 				echo "Request Made Successfully";
 			else if($type == 2)
 				echo "Amount over borrow limit for current month. Decision to accept is with incharge.";
+			else if($type == 3)
+				echo "Enter the amount.";
+			if($error == 1)
+				echo "Only ".$stocklt." of this chmical available";
 		?>
 </BODY>
 </HTML>

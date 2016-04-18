@@ -14,13 +14,20 @@
 		$amt = $_POST['amt'];
 		$sql = "select amount from borrowrequest where reqID = ".$id;
 		$row = mysqli_fetch_row(mysqli_query($conn, $sql));
-		if($amt>$row[0])
+		if($amt>$row[0]){
 			$error = 1;
+			$amt = $row[0];
+		}
 		else{
-			$sql = "update table borrowrequest set state = -1 where reqID = ".$id;
+			$sql = "update borrowrequest set state = -2 where reqID = ".$id;
 			mysqli_query($conn, $sql);
+			//echo $sql;
 			$sql = "insert into returnrequest values(".$id.", ".$amt.", CURDATE(), CURTIME(), 1)";
 			mysqli_query($conn, $sql);
+			//echo $sql;
+			$sql = "update stock set amount = amount+".$amt." where chemID = (select cID from borrowrequest where reqID='".$id."') and gID=".$_SESSION['group'];
+			mysqli_query($conn, $sql);
+			//echo $sql;
 			$error = 0;
 		}
 	}
@@ -29,55 +36,7 @@
 ?>
 <HTML>
 <HEAD>
-	<STYLE type="text/css">
-		.nav ul {
-			list-style: none;
-			background-color: #444;
-			text-align: center;
-			padding: 0;
-			margin: 0;
-		}
-
-		.nav li {
-			font-family: 'Oswald', sans-serif;
-			font-size: 1.2em;
-			line-height: 40px;
-			height: 40px;
-			border-bottom: 1px solid #888;
-		}
- 
-		.nav a {
-			text-decoration: none;
-			color: #fff;
-			display: block;
-			transition: .3s background-color;
-		}
- 
-		.nav a:hover {
-			background-color: #005f5f;
-		}
- 
-		.nav a.active {
-			background-color: #fff;
-			color: #444;
-			cursor: default;
-		}
- 
-		@media screen and (min-width: 600px) {
-			.nav li {
-				width: 120px;
-				border-bottom: none;
-				height: 50px;
-				line-height: 50px;
-				font-size: 1.4em;
-			}
-
-			.nav li {
-				display: inline-block;
-				margin-right: -4px;
-			}
-		}
-	</STYLE>
+	<link rel="stylesheet" type="text/css" href="CSS/navbar.css">
 	<TITLE>
 		Return
 	</TITLE>
@@ -116,7 +75,7 @@
 			echo "
 			</select>
 			<br><br>
-			Quantity: <input type='number' name='amt'>
+			Quantity: <input type='number' step='0.01' name='amt'>
 			<br><br>
 			<button type='submit' name='submit'>SUBMIT</button>
 			";
@@ -127,7 +86,7 @@
 			if($error == 0)
 				echo "Return request successfull";
 			else if($error == 1)
-				echo "Failed. You can return only ".$amt." for this request";
+				echo "Failed. You can return a maximum of ".$amt." for this request";
 		?>
 </BODY>
 </HTML>

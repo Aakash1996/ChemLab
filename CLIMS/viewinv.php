@@ -11,55 +11,7 @@
 
 <HTML>
 <HEAD>
-	<STYLE type="text/css">
-		.nav ul {
-			list-style: none;
-			background-color: #444;
-			text-align: center;
-			padding: 0;
-			margin: 0;
-		}
-
-		.nav li {
-			font-family: 'Oswald', sans-serif;
-			font-size: 1.2em;
-			line-height: 40px;
-			height: 40px;
-			border-bottom: 1px solid #888;
-		}
- 
-		.nav a {
-			text-decoration: none;
-			color: #fff;
-			display: block;
-			transition: .3s background-color;
-		}
- 
-		.nav a:hover {
-			background-color: #005f5f;
-		}
- 
-		.nav a.active {
-			background-color: #fff;
-			color: #444;
-			cursor: default;
-		}
- 
-		@media screen and (min-width: 600px) {
-			.nav li {
-				width: 120px;
-				border-bottom: none;
-				height: 50px;
-				line-height: 50px;
-				font-size: 1.4em;
-			}
-
-			.nav li {
-				display: inline-block;
-				margin-right: -4px;
-			}
-		}
-	</STYLE>
+	<link rel="stylesheet" type="text/css" href="CSS/navbar.css">
 	<TITLE>
 		Dashboard
 	</TITLE>
@@ -83,7 +35,6 @@
 	    	echo '<div class="nav">
 			<ul>
 		        <li><a href="admindash.php">Dashboard</a></li>
-		        <li><a href="showreq.php">All Requests</a></li>
 		        <li><a class = "active" href="#">View Inventory</a></li>
 		        <li><a href="adduser.php">Add User</a></li>
 		        <li><a href="reset_admin.php">Account</a></li>
@@ -116,6 +67,7 @@
 			</tr>
 			<?php
 				$sql = "select `id`, `chemID`, `iupac`, `common_name`, `amount`, `limit` from (stock, chemicals) where `id`=`chemID` and `gID` = ".$_SESSION['group'];
+				//echo $sql;
 				$resultset = mysqli_query($conn, $sql);
 				//echo $sql;
 				while($row = mysqli_fetch_row($resultset)){

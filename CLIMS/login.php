@@ -37,7 +37,8 @@
 				header('Location: admindash.php');
 				//echo '<script type="text/javascript">location.href = \'admindash.php\';</script>';
 			else if($_SESSION['user_type'] == 'R'){
-				$sql = "select gID from reserchgroup where hID = '".$user."'";
+				$sql = "select gID from researchgroup where hID = '".$user."'";
+				//echo $sql;
 				$row = mysqli_fetch_row(mysqli_query($conn, $sql));
 				$_SESSION['group'] = $row[0];
 				header('Location: rhdash.php');
@@ -46,15 +47,18 @@
 			else if($_SESSION['user_type'] == 'T'){
 				$sql = "select gID from groupdetails where memID = '".$user."'";
 				$result = mysqli_query($conn, $sql);
-				$row = mysqli_fetch_row($result);
+				//echo $sql."type is t";
+				$row = mysqli_fetch_row(mysqli_query($conn, $sql));
 				$_SESSION['group'] = $row[0];
 				header('Location: tldash.php');
 			}
 				//echo '<script type="text/javascript">location.href = \'tldash.php\';</script>';
 			else if($_SESSION['user_type'] == 'S'){
 				$sql = "select gID from groupdetails where memID = '".$user."'";
-				$row = mysqli_fetch_row($result);
+				//echo $sql;
+				$row = mysqli_fetch_row(mysqli_query($conn, $sql));
 				$_SESSION['group'] = $row[0];
+				//echo $_SESSION['group'];
 				header('Location: stdash.php');
 			}
 				//echo '<script type="text/javascript">location.href = \'stdash.php\';</script>';
