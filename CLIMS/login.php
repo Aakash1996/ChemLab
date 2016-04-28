@@ -34,7 +34,7 @@
 				$_SESSION['disp_name'] = $row[3];
 			}
 			if($_SESSION['user_type'] == 'A')
-				header('Location: admindash.php');
+				header('Location: adduser.php');
 				//echo '<script type="text/javascript">location.href = \'admindash.php\';</script>';
 			else if($_SESSION['user_type'] == 'R'){
 				$sql = "select gID from researchgroup where hID = '".$user."'";
@@ -45,7 +45,7 @@
 			}
 				//echo '<script type="text/javascript">location.href = \'rhdash.php\';</script>';
 			else if($_SESSION['user_type'] == 'T'){
-				$sql = "select gID from groupdetails where memID = '".$user."'";
+				$sql = "select gID from researchgroup where tlID = '".$user."'";
 				$result = mysqli_query($conn, $sql);
 				//echo $sql."type is t";
 				$row = mysqli_fetch_row(mysqli_query($conn, $sql));

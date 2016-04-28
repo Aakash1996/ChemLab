@@ -91,7 +91,7 @@
 			<ul>
 		        <li><a class="active" href="#">Dashboard</a></li>
 		        <!--<li><a href="showreq.php">All Requests</a></li>-->
-		        <li><a href="viewinv.php">View Inventory</a></li>
+		        <!--<li><a href="viewinv.php">View Inventory</a></li>-->
 		        <li><a href="adduser.php">Add User</a></li>
 		        <li><a href="reset_admin.php">Account</a></li>
 		    </ul>

@@ -97,7 +97,7 @@
 				echo"
 				</select>
 				<br><br>
-				Quantity: <input type='number' name='amount'>
+				Quantity: <input type='number' name='amount' step='0.01'>
 				<br><br>
 				<button type='submit' name='submit'>SUBMIT</button>
 				";

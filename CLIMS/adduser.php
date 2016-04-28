@@ -21,15 +21,21 @@
 				$error = 1;
 			else if($user == '')
 				$error = 3;
-			else if($pass1 == '' && $pass2 == '')
+			else if($pass == '' && $pass2 == '')
 				$error = 4;
 			else{
 				$result = mysqli_query($conn, "select * from users where id='".$user."'");
 				if(mysqli_num_rows($result)!=0)
 					$error = 2;
 				else{
-					if(mysqli_query($conn, "insert into users values ('".$user."', password('".$pass."'),'".$type."', '".$name."' )"));
+					if(mysqli_query($conn, "insert into users values ('".$user."', password('".$pass."'),'".$type."', '".$name."' )")){
 						$error = 0;
+						if($type == 'R'){
+							$sql = "insert into researchgroup(hID) values ('".$user."')";
+							//echo $sql;
+							mysqli_query($conn, $sql);
+						}
+					}
 				}
 			}
 		}
@@ -47,8 +53,8 @@
 	<header>
 	    <div class="nav">
 			<ul>
-		        <li><a href="admindash.php">Dashboard</a></li>
-		        <li><a href="viewinv.php">View Inventory</a></li>
+		        <!--<li><a href="admindash.php">Dashboard</a></li>-->
+		        <!--<li><a href="viewinv.php">View Inventory</a></li>-->
 		        <li><a class="active" href="#">Add User</a></li>
 		        <li><a href="reset_admin.php">Account</a></li>
 		    </ul>
@@ -63,10 +69,7 @@
 			Password:<input type='password' name='pwd'><br>
 			Re-enter Password:<input type='password' name='pwd2'><br>
 			Name:<input type='text' name='name'><br>
-			Account Type:<Input type='radio' name='type' value='A'>Admin</Input>
-				<input type='radio' name='type' value='R'>Research Head</Input>
-				<input type='radio' name='type' value='T'>Team Leader</Input>
-                                <input type='radio' name='type' value='S'>Student<br><br>
+			Account Type:<Input type='radio' name='type' value='A'>Admin</Input><input type='radio' name='type' value='R'>Research Head</Input>
 			<button type='submit' name='createuser'>Create User</button>
 		</fieldset>
 		<br><br><br>
@@ -80,17 +83,11 @@
 			else if($error == 1)
 				echo "Passwords do not match";
 			else if($error == 4)
-				echo "Enter Password";
+				echo "Password cannot be empty";
 			else if($error == 2)
 				echo"User already exists";
 			else if($error == 3)
 				echo "User cannot be empty";
-			if($depterror == 0)
-				echo "Department Added";
-			else if($depterror == 1)
-				echo "Department cannot be empty";
-			else if($depterror == 2)
-				echo "Department already exist";
 	}
 	?>
 	</p>

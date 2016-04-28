@@ -2,6 +2,7 @@
 	session_start();
 	$error1 = 0;
 	$error2 = 0;
+	$error3 = -1;
 	require('dbconnect.php');
 	$user = $_SESSION['user'];
 	if(!isset($_SESSION['user']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'A'){
@@ -20,6 +21,8 @@
 			if($newpass != $newpass2){
 				$error1 = 1;
 			}
+			else if($pass1 == '' && $pass2 == '')
+				$error1 = 4;
 			else{
 				//echo "update user set pwd='".$newpass."' where id='".$_SESSION['user']."' and pwd='".$current."'";
 				//echo mysqli_num_rows(mysqli_query($conn, "select * from user where id='".$_SESSION['user']."' and pwd='".$current."'"));
@@ -52,8 +55,8 @@
 	<header>
 	    <div class="nav">
 			<ul>
-		        <li><a href="admindash.php">Dashboard</a></li>
-		        <li><a href="viewinv.php">View Inventory</a></li>
+		        <!--<li><a href="admindash.php">Dashboard</a></li>-->
+		        <!--<li><a href="viewinv.php">View Inventory</a></li>-->
 		        <li><a href="adduser.php">Add User</a></li>
 		        <li><a class="active" href="#">Account</a></li>
 		    </ul>
@@ -77,6 +80,8 @@
 			echo "Passwords do not match";
 		else if($error1 == 2)
 			echo "Current Password Wrong";
+		else if($error1 == 4)
+			echo "Enter Password";
 	?><br><br>
 	<form action="reset_admin.php" name="resetother" method="POST">
 		<fieldset>
@@ -90,11 +95,21 @@
 			</select>
 			<br>
 			New Password:<input type="password" name="pwd"><br>
-			<button type="submit" name='form2'>Reset</button>
+			<button type="submit" name='form2' value ='reset'>Reset</button>
 		</fieldset>
 	</form>
+	
 	<?php
-		if($error2 == 1)
-			echo "Reset Successful"
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$pass3 = $_POST['pwd'];
+			if(isset($_POST['reset'])){
+			if($pass3 == '')
+			$error3 = 0;
+			if ($error3 == 0)
+				echo "Enter Password";
+			else
+				echo "Reset Successful";
+			}
+		}
 	?>
 </BODY>

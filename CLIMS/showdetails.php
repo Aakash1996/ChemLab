@@ -21,7 +21,7 @@
 		window.close()
 	}
 	</script>
-	<TITLE>Deatails</TITLE>
+	<TITLE>Details</TITLE>
 </HEAD>
 <BODY>
 	<BUTTON OnClick = "window.close()">Close Window</BUTTON>

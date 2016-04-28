@@ -31,21 +31,13 @@
 		    </ul>
 		    </ul>
 	    </div>';
-	    else if($_SESSION['user_type'] == 'A')
-	    	echo '<div class="nav">
-			<ul>
-		        <li><a href="admindash.php">Dashboard</a></li>
-		        <li><a class = "active" href="#">View Inventory</a></li>
-		        <li><a href="adduser.php">Add User</a></li>
-		        <li><a href="reset_admin.php">Account</a></li>
-		    </ul>
-	    </div>';
 	    else if($_SESSION['user_type'] == 'R')
 	    	echo '<div class="nav">
 			<ul>
 		        <ul>
 		        <li><a href="rhdash.php">Dashboard</a></li>
 		        <li><a href = "editstock.php">Add Stock</a></li>
+		        <li><a href = "updatechemical.php">Update Chemical</a></li>
 		        <li><a class = "active" href = "#">View inventory</a></li>
 		        <li><a href = "groupmanage.php">Manage Group</a></li>
 		        <li><a href = "reset.php">Reset Password</a></li>
@@ -53,10 +45,11 @@
 		    </ul>
 	    </div>'
 	?>
-	<p align="right">Welcome <?php echo $user;?><br><a href="logout.php">Logout</a><br>
+	<p align="right">Welcome <?php echo $user;?><br><a href="logout.php">Logout</a>
 	</header>
 	<fieldset>
 		<legend>Current Inventory</legend>
+		<a href="#" onclick="find()">Click here to search....</a><br><br>
 		<table>
 			<tr>
 				<th width="200px" align="center">CAS Number</th>

@@ -57,6 +57,7 @@
 		        <ul>
 		        <li><a href="rhdash.php">Dashboard</a></li>
 		        <li><a href = "editstock.php">Add Stock</a></li>
+		        <li><a href = "updatechemical.php">Update Chemical</a></li>
 		        <li><a href = "viewinv.php">View inventory</a></li>
 		        <li><a href = "groupmanage.php">Manage Group</a></li>
 		        <li><a class = "active" href = "#">Reset Password</a></li>
@@ -68,7 +69,6 @@
 			<ul>
 		        <ul>
 		        <li><a href="tldash.php">Dashboard</a></li>
-		        <li><a href = "acceptrequest.php">Pending Request</a></li>
 		        <li><a class = "active" href = "#">Reset Password</a></li>
 		    </ul>
 		    </ul>

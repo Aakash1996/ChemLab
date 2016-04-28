@@ -25,9 +25,6 @@
 			$sql = "insert into returnrequest values(".$id.", ".$amt.", CURDATE(), CURTIME(), 1)";
 			mysqli_query($conn, $sql);
 			//echo $sql;
-			$sql = "update stock set amount = amount+".$amt." where chemID = (select cID from borrowrequest where reqID='".$id."') and gID=".$_SESSION['group'];
-			mysqli_query($conn, $sql);
-			//echo $sql;
 			$error = 0;
 		}
 	}
