@@ -68,9 +68,10 @@
 	    	echo '<div class="nav">
 			<ul>
 		        <ul>
-		        <li><a href="tldash.php">Dashboard</a></li>
-		        <li><a class = "active" href = "#">Reset Password</a></li>
-		    </ul>
+			        <li><a href ="tldash.php">Dashboard</a></li>
+			        <li><a href = "viewinv.php">View Inventory</a></li>
+			        <li><a class = "active" href = "#">Reset Password</a></li>
+			    </ul>
 		    </ul>
 	    </div>';
 	?>

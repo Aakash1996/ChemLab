@@ -43,7 +43,17 @@
 		        <li><a href = "reset.php">Reset Password</a></li>
 		    </ul>
 		    </ul>
-	    </div>'
+	    </div>';
+	    else if($_SESSION['user_type'] == 'T')
+	    	echo '<div class="nav">
+			<ul>
+		        <ul>
+			        <li><a href ="tldash.php">Dashboard</a></li>
+			        <li><a class = "active" href = "#">View Inventory</a></li>
+			        <li><a href = "reset.php">Reset Password</a></li>
+			    </ul>
+		    </ul>
+	    </div>';
 	?>
 	<p align="right">Welcome <?php echo $user;?><br><a href="logout.php">Logout</a>
 	</header>

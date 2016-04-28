@@ -24,6 +24,7 @@
 			<ul>
 		        <ul>
 			        <li><a class = "active" href ="#">Dashboard</a></li>
+			        <li><a href = "viewinv.php">View Inventory</a></li>
 			        <li><a href = "reset.php">Reset Password</a></li>
 			    </ul>
 		    </ul>
